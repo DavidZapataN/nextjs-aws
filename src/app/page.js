@@ -1,7 +1,7 @@
 // app/page.js
 async function getVisitas() {
   const res = await fetch(
-    "https://wrotksrxxj.execute-api.us-east-2.amazonaws.com/prod/contador"
+    process.env.NEXT_PUBLIC_API_URL
   );
   if (!res.ok) {
     throw new Error("Error en la solicitud");
