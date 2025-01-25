@@ -1,4 +1,7 @@
-// app/page.js
+"use client";
+
+import { useState, useEffect } from "react";
+
 async function getVisitas() {
   const res = await fetch(
     process.env.NEXT_PUBLIC_API_URL
@@ -9,8 +12,21 @@ async function getVisitas() {
   return res.json();
 }
 
-export default async function Home() {
-  const data = await getVisitas();
+export default function Home() {
+  const [views, setViews] = useState(null)
+
+  useEffect(() => {
+    async function fetchVisits() {
+      try {
+        const data = await getVisitas();
+        setViews(data.visitas)
+      } catch (error) {
+        console.error("Failed to fetch visits:", error);
+      }
+    }
+
+    fetchVisits();
+  }, [])
 
   return (
     <div className="font-sans text-center mt-12">
@@ -22,7 +38,7 @@ export default async function Home() {
       <p className="text-gray-600 mt-2">
         Visits:{" "}
         <span id="contador" className="font-semibold">
-          {data.visitas}
+          {views}
         </span>
       </p>
     </div>
